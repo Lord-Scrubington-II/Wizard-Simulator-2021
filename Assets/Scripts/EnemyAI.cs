@@ -13,13 +13,16 @@ public class EnemyAI : MonoBehaviour
     NavMeshAgent navMeshAgent;
     float distanceToTarget = float.PositiveInfinity;
     bool isProvoked = false;
+    
+    public enum AIStates {
+        Idle, ChasingPlayer, ChasingOther, Attacking
+    }
+    public AIStates AIState { get; private set; }
 
-    // Start is called before the first frame update
     void Start() {
         navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
     }
 
-    // Update is called once per frame
     void Update() {
 
         // update the distance to the target and route the state
@@ -38,12 +41,12 @@ public class EnemyAI : MonoBehaviour
             isProvoked = true;
 
         } else {
-            isProvoked = false;
             Idle();
         }
     }
 
     private void Idle() {
+        AIState = AIStates.Idle;
         navMeshAgent.isStopped = true;
     }
 
@@ -58,17 +61,22 @@ public class EnemyAI : MonoBehaviour
     }
 
     private void ChaseTarget() {
+        AIState = AIStates.ChasingPlayer;
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(target.position);
     }
 
     private void AttackTarget() {
+        AIState = AIStates.Attacking;
         Debug.Log(name + " is attacking " + target.name);
     }
 
-
+    /// <summary>
+    /// Draw a wiresphere to indicate the aggro FOV
+    /// </summary>
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(gameObject.transform.position, chaseRange);
     }
+
 }
