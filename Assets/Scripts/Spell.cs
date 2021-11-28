@@ -8,7 +8,7 @@ using UnityStandardAssets.CrossPlatformInput;
 /// </summary>
 abstract public class Spell : MonoBehaviour {
 
-    [SerializeField] protected bool USING_DEBUG = true;
+    [SerializeField] protected bool USING_DEBUG = false;
 
     [SerializeField] protected Camera FPCamera;
     [SerializeField] protected ParticleSystem chargingParticles;

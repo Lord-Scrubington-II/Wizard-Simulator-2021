@@ -21,10 +21,12 @@ public class LightningBolt : Spell {
 
         Vector3 origin = FPCamera.transform.position;
         Vector3 direction = FPCamera.transform.forward;
+        Vector3 destination = origin + range * direction;
 
         RaycastHit hit;
+        bool hitSomething = false;
         if (Physics.Raycast(origin, direction, out hit, range)) {
-            Vector3 destination = hit.point;
+            destination = hit.point;
             Enemy target = hit.transform.GetComponent<Enemy>();
 
             if (USING_DEBUG) {
@@ -36,18 +38,18 @@ public class LightningBolt : Spell {
                 Invoke(nameof(HideLine), spellEffectLifetime);
             }
 
-            // invoke the lightning generator & damage the target
-            RenderLightning(origin, destination);
-            Invoke(nameof(HideLightning), spellEffectLifetime);
-
-            if (target == null) return false;
-
-            target.DamageBy(this.Data.Damage);
-            return true;
-
-        } else {
-            return false;
+            if (target != null) {
+                // damage the target
+                target.DamageBy(this.Data.Damage);
+                hitSomething = true;
+            }
         }
+
+        // invoke the lightning generator
+        RenderLightning(origin, destination);
+        Invoke(nameof(HideLightning), spellEffectLifetime);
+
+        return hitSomething;
     }
 
     protected override bool ApplyEffectToPlayer() {
