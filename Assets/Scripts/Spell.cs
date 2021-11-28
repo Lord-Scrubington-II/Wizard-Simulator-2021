@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
+/// <summary>
+/// This abstract class defines generic spell behaviour.
+/// </summary>
 abstract public class Spell : MonoBehaviour {
 
     [SerializeField] protected bool USING_DEBUG = true;
 
     [SerializeField] protected Camera FPCamera;
     [SerializeField] protected ParticleSystem idleParticles;
-    [SerializeField] private SpellDataModule spellData;
+    [SerializeField] private SpellDataModule spellData = new SpellDataModule();
 
     /// <summary>
     /// Retrieve a reference to the Spell's Data Module
     /// </summary>
     public SpellDataModule Data { get => spellData; set => spellData = value; }
 
+    /// <summary>
+    /// Can this spell be cast on this frame?
+    /// </summary>
     public bool CanCast {
         get => Data.CoolDownRemaining == 0 && Data.ChargeTimeRemaining == Data.ChargeTime;
     }
@@ -24,12 +30,14 @@ abstract public class Spell : MonoBehaviour {
     public class SpellDataModule { 
         // spell constants
         [SerializeField] private int damage = 5;
-        [SerializeField] [Range(1.0f, 10.0f)] private float coolDownTime = 3.0f; // in seconds
-        [SerializeField] [Range(0.0f, 4.0f)] private float chargeTime = 0.3f; // in seconds
+        [SerializeField] [Range(1.0f, 10.0f)] private float coolDownTime = 5.0f; // in seconds
+        [SerializeField] [Range(1.0f, 6.0f)] private float chargeTime = 2.0f; // in seconds
 
         // these variables are used to implement timers
-        private float coolDownRemaining;
-        private float chargeTimeRemaining;
+        [SerializeField][Tooltip("Starts at 0!")] private float coolDownRemaining = 0.0f;
+        [SerializeField][Tooltip("Starts equal to chargeTime!")] private float chargeTimeRemaining = 0.3f;
+
+        public SpellDataModule() { }
 
         public SpellDataModule(int damage, int coolDown, int charge) {
             this.damage = damage;
@@ -47,33 +55,19 @@ abstract public class Spell : MonoBehaviour {
         public float ChargeTimeRemaining { get => chargeTimeRemaining; set => chargeTimeRemaining = value; }
     }
 
+    // Input Consts:
+    public const string fireButton = "Fire";
+
     /// <summary>
     /// Starts the full spell routine.
     /// </summary>
-    /// <returns>True if the spell can be invoked, false if not.</returns>
-    virtual public bool InvokeNoCoroutine() {
-        if(!CanCast) {
-            return false;
+    virtual public void InvokeSpell() {
+        if (USING_DEBUG) {
+            Debug.Log($"Spell with name {this.name} has been invoked!");
         }
         ThrowSpell();
         ApplyEffectToPlayer();
-
-        return true;
     }
-
-
-    /*
-    virtual public bool Invoke() {
-        if (!CanCast) {
-            return false;
-        }
-        if(CrossPlatformInputManager.GetButton(fireButton)) {
-            StartCoroutine(nameof(SpellChargeClock));
-            
-        }
-        return true;
-    } */
-
 
     /// <summary>
     /// If this spell has effects on the Player, start them here.
@@ -87,57 +81,74 @@ abstract public class Spell : MonoBehaviour {
     /// <returns>True if the spell is thrown; false if not.</returns>
     abstract protected bool ThrowSpell();
 
-    abstract protected void Start();
+    virtual protected void Start() { }
+
     virtual protected void Update() {
-        if (CrossPlatformInputManager.GetButtonDown(fireButton)) {
-            InvokeNoCoroutine();
+        if (CanCast && CrossPlatformInputManager.GetButtonDown(fireButton)) {
+            // Invoke();
+            StartCoroutine(nameof(SpellChargeClock));
+        }
+
+        else if (!CanCast && CrossPlatformInputManager.GetButtonDown(fireButton)) {
+            Debug.LogWarning("This spell cannot be cast right now!");
         }
     }
-
-
-    // Input Consts:
-    public const string fireButton = "Fire";
 
     /// <summary>
     /// This is a Coroutine that is to be started after the player has finished casting a spell.
     /// </summary>
-    virtual protected IEnumerable CoolDownTimer() {
+    virtual protected IEnumerator CoolDownTimer() {
 
         // start the cooldown timer and let other procedures check if the spell can be cast
         Data.CoolDownRemaining = Data.CoolDownTime;
-        if (Data.CoolDownRemaining >= float.Epsilon) {
-            Data.CoolDownRemaining += Time.deltaTime;
+        while (Data.CoolDownRemaining >= float.Epsilon) {
+            Data.CoolDownRemaining -= Time.deltaTime;
             yield return null;
         }
 
         if(USING_DEBUG) {
             Debug.Log($"Spell with name {this.name} can be cast.");
         }
+
+        // floating point funny
+        Data.CoolDownRemaining = 0.0f;
     }
 
     /// <summary>
     /// This is a Coroutine that is to be started after the player has started to cast a spell.
     /// </summary>
-    virtual protected IEnumerable SpellChargeClock() {
+    virtual protected IEnumerator SpellChargeClock() {
         // we expect the charge time remaining to be equal to the total charge time when the coroutine is invoked
-        if (Data.ChargeTimeRemaining != Data.ChargeTime) {
-            throw new System.FormatException($"Unexpected Spell Charge Time Remaining for {this.name}.");
+        Debug.Assert(Data.ChargeTimeRemaining - Data.ChargeTime <= float.Epsilon, $"Unexpected Spell Charge Time Remaining for {this.name}.");
+        if (USING_DEBUG) Debug.Log($"Player has started charging {this.name}.");
+        bool finishedCharging = false;
+        // TODO: start charge anims
+        
+        // while the user is still holding down the spell button, decrease the charge time remaining
+        while (CrossPlatformInputManager.GetButton(fireButton)) {
+            if (Data.ChargeTimeRemaining >= float.Epsilon) {
+                Data.ChargeTimeRemaining -= Time.deltaTime;
+                // if (USING_DEBUG) Debug.Log($"Spell is charging. Time remaining: {Data.ChargeTimeRemaining}");
+            } else { // Player has finished charging & released mouse
+                if (USING_DEBUG) Debug.Log($"Spell with name {this.name} can be fired.");
+                finishedCharging = true;
+            } 
+            yield return null;
+
+            if (finishedCharging && CrossPlatformInputManager.GetButtonUp(fireButton)) {
+                // invoke the spell & start cooldown!
+                InvokeSpell(); 
+                StartCoroutine(nameof(CoolDownTimer));
+            }
+        }
+
+        if (!finishedCharging && USING_DEBUG) {
+            // TODO: stop charge anims
+            Debug.Log($"Spell was cancelled.");
         }
         
-        if (Data.ChargeTimeRemaining > float.Epsilon && CrossPlatformInputManager.GetButtonDown(fireButton)) {
-            Data.ChargeTimeRemaining -= Time.deltaTime;
+        // reset charge time
+        Data.ChargeTimeRemaining = Data.ChargeTime;
 
-            if(Data.ChargeTimeRemaining <= float.Epsilon) {
-                // TODO: fire event saying that the spell can be released OR directly invoke
-                if (USING_DEBUG) {
-                    Debug.Log($"Spell with name {this.name} can be fired.");
-                }
-            } else {
-                yield return null;
-            }
-        } else {
-            // stop anims and reset charge time
-            Data.ChargeTimeRemaining = Data.ChargeTime;
-        }
     }
 }
