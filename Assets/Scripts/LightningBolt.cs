@@ -11,7 +11,7 @@ using UnityStandardAssets.CrossPlatformInput;
 public class LightningBolt : Spell {
 
     [SerializeField] float range = 100f;
-    [SerializeField] float spellEffectLifetime = 1.5f; // in seconds
+    [SerializeField] float spellEffectLifetime = 1.0f; // in seconds
     [SerializeField] GameObject boltGenerator;
     LightningBoltScript boltGeneratorScript;
     LineRenderer lightningRenderer;
@@ -24,7 +24,7 @@ public class LightningBolt : Spell {
 
         RaycastHit hit;
         if (Physics.Raycast(origin, direction, out hit, range)) {
-            Vector3 destination = hit.transform.position;
+            Vector3 destination = hit.point;
             Enemy target = hit.transform.GetComponent<Enemy>();
 
             if (USING_DEBUG) {
@@ -36,11 +36,15 @@ public class LightningBolt : Spell {
                 Invoke(nameof(HideLine), spellEffectLifetime);
             }
 
-            //FIXME: invoke the lightning generator here
+            // invoke the lightning generator & damage the target
             RenderLightning(origin, destination);
             Invoke(nameof(HideLightning), spellEffectLifetime);
 
+            if (target == null) return false;
+
+            target.DamageBy(this.Data.Damage);
             return true;
+
         } else {
             return false;
         }

@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] int hitPoints = 10;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void DamageBy(int dmg) {
+        hitPoints -= dmg;
+
+        if (hitPoints <= 0) {
+            GameObject.Destroy(gameObject);
+        }
     }
 }
