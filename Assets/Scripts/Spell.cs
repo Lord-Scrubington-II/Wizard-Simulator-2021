@@ -8,11 +8,11 @@ using UnityStandardAssets.CrossPlatformInput;
 /// </summary>
 abstract public class Spell : MonoBehaviour {
 
-    [SerializeField] protected bool USING_DEBUG = true;
+    [SerializeField] protected bool USING_DEBUG = false;
 
     [SerializeField] protected Camera FPCamera;
-    [SerializeField] protected ParticleSystem idleParticles;
-    [SerializeField] private SpellDataModule spellData = new SpellDataModule();
+    [SerializeField] protected ParticleSystem chargingParticles;
+    [SerializeField] private SpellDataModule spellData;
 
     /// <summary>
     /// Retrieve a reference to the Spell's Data Module
@@ -23,7 +23,7 @@ abstract public class Spell : MonoBehaviour {
     /// Can this spell be cast on this frame?
     /// </summary>
     public bool CanCast {
-        get => Data.CoolDownRemaining == 0 && Data.ChargeTimeRemaining == Data.ChargeTime;
+        get => Data.CoolDownRemaining == 0 && Mathf.Abs(Data.ChargeTimeRemaining - Data.ChargeTime) <= float.Epsilon;
     }
 
     [System.Serializable]
@@ -31,11 +31,11 @@ abstract public class Spell : MonoBehaviour {
         // spell constants
         [SerializeField] private int damage = 5;
         [SerializeField] [Range(1.0f, 10.0f)] private float coolDownTime = 5.0f; // in seconds
-        [SerializeField] [Range(1.0f, 6.0f)] private float chargeTime = 2.0f; // in seconds
+        [SerializeField] [Range(0.1f, 6.0f)] private float chargeTime = 2.0f; // in seconds
 
         // these variables are used to implement timers
         [SerializeField][Tooltip("Starts at 0!")] private float coolDownRemaining = 0.0f;
-        [SerializeField][Tooltip("Starts equal to chargeTime!")] private float chargeTimeRemaining = 0.3f;
+        [SerializeField][Tooltip("Starts equal to chargeTime!")] private float chargeTimeRemaining = 2.0f;
 
         public SpellDataModule() { }
 
@@ -65,6 +65,7 @@ abstract public class Spell : MonoBehaviour {
         if (USING_DEBUG) {
             Debug.Log($"Spell with name {this.name} has been invoked!");
         }
+        // TODO: it remains to be seen how anims will be handled here.
         ThrowSpell();
         ApplyEffectToPlayer();
     }
@@ -81,11 +82,16 @@ abstract public class Spell : MonoBehaviour {
     /// <returns>True if the spell is thrown; false if not.</returns>
     abstract protected bool ThrowSpell();
 
+    private void Awake() {
+        Data.ChargeTimeRemaining = Data.ChargeTime;
+        Data.CoolDownRemaining = 0;
+    }
+
     virtual protected void Start() { }
 
     virtual protected void Update() {
-        if (CanCast && CrossPlatformInputManager.GetButtonDown(fireButton)) {
-            // Invoke();
+        if (CanCast && CrossPlatformInputManager.GetButton(fireButton)) {
+            // TODO: Implement audio events
             StartCoroutine(nameof(SpellChargeClock));
         }
 
@@ -101,7 +107,7 @@ abstract public class Spell : MonoBehaviour {
 
         // start the cooldown timer and let other procedures check if the spell can be cast
         Data.CoolDownRemaining = Data.CoolDownTime;
-        while (Data.CoolDownRemaining >= float.Epsilon) {
+        while (Data.CoolDownRemaining >= 0) {
             Data.CoolDownRemaining -= Time.deltaTime;
             yield return null;
         }
@@ -119,16 +125,22 @@ abstract public class Spell : MonoBehaviour {
     /// </summary>
     virtual protected IEnumerator SpellChargeClock() {
         // we expect the charge time remaining to be equal to the total charge time when the coroutine is invoked
-        Debug.Assert(Data.ChargeTimeRemaining - Data.ChargeTime <= float.Epsilon, $"Unexpected Spell Charge Time Remaining for {this.name}.");
-        if (USING_DEBUG) Debug.Log($"Player has started charging {this.name}.");
+        Debug.Assert(Mathf.Abs(Data.ChargeTimeRemaining - Data.ChargeTime) <= float.Epsilon, $"Unexpected Spell Charge Time Remaining for {this.name}.");
+        if (USING_DEBUG) {
+            Debug.Log($"Player has started charging {this.name}.");            
+        }
         bool finishedCharging = false;
+       
         // TODO: start charge anims
-        
+
+        ParticleSystem.EmissionModule em = chargingParticles.emission;
+        em.enabled = true;
+
         // while the user is still holding down the spell button, decrease the charge time remaining
         while (CrossPlatformInputManager.GetButton(fireButton)) {
             if (Data.ChargeTimeRemaining >= float.Epsilon) {
                 Data.ChargeTimeRemaining -= Time.deltaTime;
-                // if (USING_DEBUG) Debug.Log($"Spell is charging. Time remaining: {Data.ChargeTimeRemaining}");
+                if (USING_DEBUG) Debug.Log($"Spell is charging. Time remaining: {Data.ChargeTimeRemaining}");
             } else { // Player has finished charging & released mouse
                 if (USING_DEBUG) Debug.Log($"Spell with name {this.name} can be fired.");
                 finishedCharging = true;
@@ -146,8 +158,9 @@ abstract public class Spell : MonoBehaviour {
             // TODO: stop charge anims
             Debug.Log($"Spell was cancelled.");
         }
-        
-        // reset charge time
+
+        // disable emission of charging particles and reset charge time
+        em.enabled = false;
         Data.ChargeTimeRemaining = Data.ChargeTime;
 
     }
