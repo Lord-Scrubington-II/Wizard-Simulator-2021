@@ -95,7 +95,7 @@ abstract public class Spell : MonoBehaviour {
             StartCoroutine(nameof(SpellChargeClock));
         }
 
-        else if (!CanCast && CrossPlatformInputManager.GetButtonDown(fireButton)) {
+        if (USING_DEBUG && (!CanCast && CrossPlatformInputManager.GetButtonDown(fireButton))) {
             Debug.LogWarning("This spell cannot be cast right now!");
         }
     }
@@ -162,6 +162,13 @@ abstract public class Spell : MonoBehaviour {
         // disable emission of charging particles and reset charge time
         em.enabled = false;
         Data.ChargeTimeRemaining = Data.ChargeTime;
+
+    }
+
+    /// <summary>
+    /// Plays the particle or animation that indicates this spell is finished charging!
+    /// </summary>
+    virtual protected void PlayFinishedChargeIndicator() {
 
     }
 }

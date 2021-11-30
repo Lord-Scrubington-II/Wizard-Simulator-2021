@@ -69,7 +69,7 @@ public class LightningBolt : Spell {
 
     private void RenderLightning(Vector3 origin, Vector3 destination) {
         lightningRenderer.enabled = true;
-        boltGeneratorScript.StartPosition = FPCamera.transform.forward * 2;
+        boltGeneratorScript.StartPosition = FPCamera.transform.forward;
         boltGeneratorScript.EndPosition = destination;
     }
 
