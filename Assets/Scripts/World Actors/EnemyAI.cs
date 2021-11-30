@@ -4,20 +4,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(EnemyAI))]
+
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] Transform target;
     [SerializeField] float chaseRange;
     [SerializeField] float exitRange;
+    [SerializeField] float turnSpeed = 5.0f;
 
     NavMeshAgent navMeshAgent;
     float distanceToTarget = float.PositiveInfinity;
     bool isProvoked = false;
-    
+
+    private Dictionary<AIStates, string> animStateDict = new Dictionary<AIStates, string>() {
+        {AIStates.Idle, "onIdle"}, 
+        {AIStates.ChasingPlayer, "onMove"}, 
+        {AIStates.ChasingOther, "onMove"}, 
+        {AIStates.Attacking, "onAttack"}
+    };
+
     public enum AIStates {
         Idle, ChasingPlayer, ChasingOther, Attacking
     }
     public AIStates AIState { get; private set; }
+    public Transform Target { get => target; set => target = value; }
 
     void Start() {
         navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
@@ -26,7 +37,7 @@ public class EnemyAI : MonoBehaviour
     void Update() {
 
         // update the distance to the target and route the state
-        distanceToTarget = Vector3.Distance(target.position, gameObject.transform.position);
+        distanceToTarget = Vector3.Distance(Target.position, gameObject.transform.position);
 
         if (isProvoked) {
 
@@ -47,28 +58,37 @@ public class EnemyAI : MonoBehaviour
 
     private void Idle() {
         AIState = AIStates.Idle;
+        GetComponent<Animator>().SetTrigger(animStateDict[AIState]);
         navMeshAgent.isStopped = true;
     }
 
     private void EngageTarget() {
+        FaceTarget();
         if (distanceToTarget >= navMeshAgent.stoppingDistance) {
             ChaseTarget();
-        } 
-
-        if (distanceToTarget <= navMeshAgent.stoppingDistance) {
+        } else if (distanceToTarget <= navMeshAgent.stoppingDistance) {
             AttackTarget();
         }
     }
 
     private void ChaseTarget() {
         AIState = AIStates.ChasingPlayer;
+        GetComponent<Animator>().SetBool(animStateDict[AIStates.Attacking], false);
+        GetComponent<Animator>().SetTrigger(animStateDict[AIState]);
         navMeshAgent.isStopped = false;
-        navMeshAgent.SetDestination(target.position);
+        navMeshAgent.SetDestination(Target.position);
     }
 
     private void AttackTarget() {
         AIState = AIStates.Attacking;
-        Debug.Log(name + " is attacking " + target.name);
+        GetComponent<Animator>().SetBool(animStateDict[AIState], true);
+        Debug.Log(name + " is attacking " + Target.name);
+    }
+
+    private void FaceTarget() {
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion newRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * turnSpeed);
     }
 
     /// <summary>
