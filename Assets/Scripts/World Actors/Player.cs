@@ -12,5 +12,7 @@ public class Player : WorldActor
 
     protected override void DeathProcedure() {
         Debug.Log("You dead, my blip blop.");
+
+        // invoke procedure to stop game and display game over screen
     }
 }
