@@ -178,6 +178,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: town_v3
       objectReference: {fileID: 0}
+    - target: {fileID: 2355982399387309400, guid: 3ca2a692181ef487c935c58ae6d405a1, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9cccaa0dfd1ab423eaabd89db9891ba5, type: 2}
+    - target: {fileID: 2898394801674235841, guid: 3ca2a692181ef487c935c58ae6d405a1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.70710665
+      objectReference: {fileID: 0}
+    - target: {fileID: 2898394801674235841, guid: 3ca2a692181ef487c935c58ae6d405a1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071069
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ca2a692181ef487c935c58ae6d405a1, type: 3}
 --- !u!1001 &618893857
