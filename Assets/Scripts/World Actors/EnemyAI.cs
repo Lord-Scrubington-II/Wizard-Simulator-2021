@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// ( ͡° ͜ʖ ͡°) Detroit: Become Gamer
+/// </summary>
 [RequireComponent(typeof(EnemyAI))]
-
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] Transform target;
