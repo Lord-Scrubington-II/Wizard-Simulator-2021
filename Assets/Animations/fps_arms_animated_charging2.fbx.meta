@@ -1,14 +1,14 @@
 fileFormatVersion: 2
-guid: db5373cbbd9ab4452825ea170acdc376
+guid: 049501de4288c4d7cba4cd67443449a4
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable:
   - first:
-      74: 6856210155795087261
-    second: Human_FPS|Human_FPSAction
+      74: 888697757039073414
+    second: Human_FPS|Human_FPSAction_charging2
   externalObjects: {}
   materials:
-    materialImportMode: 0
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -48,7 +48,7 @@ ModelImporter:
     importLights: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
@@ -76,7 +76,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 0
+  importAnimation: 1
   humanDescription:
     serializedVersion: 3
     human: []
@@ -97,7 +97,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
