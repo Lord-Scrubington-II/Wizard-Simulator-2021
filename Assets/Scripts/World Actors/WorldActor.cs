@@ -31,7 +31,7 @@ public abstract class WorldActor : MonoBehaviour
     }
 
     virtual protected void OnDamageTaken(int amount) {
-        Debug.Log($"O o f, my name is {gameObject.name} and I been hit.");
+        Debug.Log($"O o f, my name is {gameObject.name} and I been hit. F in the chat.");
     }
 
     abstract protected void DeathProcedure();
