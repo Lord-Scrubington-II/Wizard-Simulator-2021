@@ -6,7 +6,7 @@ public class Player : WorldActor
 {
     [SerializeField] Canvas gameOverCanvas;
 
-    private void Start() {
+    override protected void Start() {
         gameOverCanvas.enabled = false;
     }
 
@@ -28,6 +28,7 @@ public class Player : WorldActor
     private void EnableDeathUI() {
         gameOverCanvas.enabled = true;
         Time.timeScale = 0; // no gaming allowed
+        FindObjectOfType<SpellRouter>().enabled = false; // kinda gross, but oh well
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }

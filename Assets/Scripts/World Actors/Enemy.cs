@@ -9,7 +9,10 @@ public class Enemy : WorldActor
     private WorldActor attackTargetActor;
     [SerializeField] int damage = 20;
 
-    private void Start() {
+    public bool HasDied { get; private set; }
+
+    override protected void Start() {
+        HasDied = false;
         attackTargetActor = FindObjectOfType<Player>(); // probably not super smart but it works?
     }
 
@@ -23,6 +26,9 @@ public class Enemy : WorldActor
     }
 
     protected override void DeathProcedure() {
-        GameObject.Destroy(gameObject);
+        //GameObject.Destroy(gameObject);
+        if (HasDied) return;
+        HasDied = true;
+        GetComponent<Animator>().SetTrigger("onDead");
     }
 }

@@ -26,6 +26,10 @@ abstract public class Spell : MonoBehaviour {
         get => Data.CoolDownRemaining == 0 && Mathf.Abs(Data.ChargeTimeRemaining - Data.ChargeTime) <= float.Epsilon;
     }
 
+    /// <summary>
+    /// SpellDataModules provide a concise way of viewing and acting upon
+    /// the stats of a particular spell. They can also be passed around, if need be.
+    /// </summary>
     [System.Serializable]
     public class SpellDataModule { 
         // spell constants
