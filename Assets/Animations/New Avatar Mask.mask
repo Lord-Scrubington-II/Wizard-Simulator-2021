@@ -7,5 +7,121 @@ AvatarMask:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: New Avatar Mask
-  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-  m_Elements: []
+  m_Mask: 00000000000000000000000000000000000000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: basicRig:Body
+    m_Weight: 1
+  - m_Path: Human_FPS
+    m_Weight: 1
+  - m_Path: Human_FPS/root
+    m_Weight: 1
+  - m_Path: Human_FPS/root/IK_arm_target.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/IK_arm_target.r/IK_arm_target.r_end
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/index1.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/index1.l/index2.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/index1.l/index2.l/index3.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/index1.l/index2.l/index3.l/index3.l_end
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/middle1.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/middle1.l/middle2.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/middle1.l/middle2.l/middle3.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/middle1.l/middle2.l/middle3.l/middle3.l_end
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/ring1.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/ring1.l/ring2.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/ring1.l/ring2.l/ring3.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/ring1.l/ring2.l/ring3.l/ring3.l_end
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/pinky1.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/pinky1.l/pinky2.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/pinky1.l/pinky2.l/pinky3.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/pinky1.l/pinky2.l/pinky3.l/pinky3.l_end
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/thumb1.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/thumb1.l/thumb2.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/thumb1.l/thumb2.l/thumb3.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.l/forearm.l/palm.l/thumb1.l/thumb2.l/thumb3.l/thumb3.l_end
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/index1.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/index1.r/index2.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/index1.r/index2.r/index3.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/index1.r/index2.r/index3.r/index3.r_end
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/middle1.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/middle1.r/middle2.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/middle1.r/middle2.r/middle3.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/middle1.r/middle2.r/middle3.r/middle3.r_end
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/ring1.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/ring1.r/ring2.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/ring1.r/ring2.r/ring3.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/ring1.r/ring2.r/ring3.r/ring3.r_end
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/thumb1.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/thumb1.r/thumb2.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/thumb1.r/thumb2.r/thumb3.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/thumb1.r/thumb2.r/thumb3.r/thumb3.r_end
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/ring1.r.001
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/ring1.r.001/ring2.r.001
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/ring1.r.001/ring2.r.001/ring3.r.001
+    m_Weight: 1
+  - m_Path: Human_FPS/root/arm.r/forearm.r/palm.r/ring1.r.001/ring2.r.001/ring3.r.001/ring3.r.001_end
+    m_Weight: 1
+  - m_Path: Human_FPS/root/IK_arm_pole.r
+    m_Weight: 1
+  - m_Path: Human_FPS/root/IK_arm_pole.r/IK_arm_pole.r_end
+    m_Weight: 1
+  - m_Path: Human_FPS/root/IK_arm_pole.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/IK_arm_pole.l/IK_arm_pole.l_end
+    m_Weight: 1
+  - m_Path: Human_FPS/root/IK_arm_target.l
+    m_Weight: 1
+  - m_Path: Human_FPS/root/IK_arm_target.l/IK_arm_target.l_end
+    m_Weight: 1
