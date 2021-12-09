@@ -4,8 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(EnemyAI))]
-
+/// <summary>
+/// This class defines the finite state machine responsible for controlling
+/// the default enemy AI and its corresponding animations.
+/// 
+/// ( ͡° ͜ʖ ͡°) Detroit: Become Gamer
+/// </summary>
+[RequireComponent(typeof(Enemy))]
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] Transform target;
@@ -69,6 +74,10 @@ public class EnemyAI : MonoBehaviour
         } else if (distanceToTarget <= navMeshAgent.stoppingDistance) {
             AttackTarget();
         }
+    }
+
+    private void OnDamageTaken(int amount) {
+        isProvoked = true;
     }
 
     private void ChaseTarget() {

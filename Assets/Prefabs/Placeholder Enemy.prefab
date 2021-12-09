@@ -136,8 +136,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  chaseRange: 12
-  exitRange: 18
+  chaseRange: 20
+  exitRange: 25
+  turnSpeed: 2
 --- !u!95 &308035932
 Animator:
   serializedVersion: 3
@@ -170,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 10
+  damage: 20
 --- !u!1 &8926518642128589175
 GameObject:
   m_ObjectHideFlags: 0
