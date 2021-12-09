@@ -243,6 +243,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5732187211972644884, guid: db5373cbbd9ab4452825ea170acdc376, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3530c7a080dc3464abcf2f44ea2e577e, type: 2}
     - target: {fileID: 919132149155446097, guid: db5373cbbd9ab4452825ea170acdc376, type: 3}
       propertyPath: m_Name
       value: fps_arms
