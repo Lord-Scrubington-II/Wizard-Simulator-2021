@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Enemy))]
+[RequireComponent(typeof(EnemyAI))]
 public class Enemy : WorldActor
 {
     // [SerializeField] private Transform attackTarget;
