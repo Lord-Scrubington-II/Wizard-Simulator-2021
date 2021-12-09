@@ -10,7 +10,7 @@ using UnityEngine.AI;
 /// 
 /// ( ͡° ͜ʖ ͡°) Detroit: Become Gamer
 /// </summary>
-[RequireComponent(typeof(Enemy))]
+[RequireComponent(typeof(Enemy))][RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] Transform target;
@@ -19,6 +19,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] float turnSpeed = 5.0f;
 
     NavMeshAgent navMeshAgent;
+    Enemy thisEnemy;
     float distanceToTarget = float.PositiveInfinity;
     bool isProvoked = false;
 
@@ -37,9 +38,17 @@ public class EnemyAI : MonoBehaviour
 
     void Start() {
         navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+        thisEnemy = gameObject.GetComponent<Enemy>();
     }
 
     void Update() {
+        
+        // turn off the brain when dead
+        if  (thisEnemy.HasDied) {
+            this.enabled = false;
+            navMeshAgent.enabled = false;
+            return;
+        }
 
         // update the distance to the target and route the state
         distanceToTarget = Vector3.Distance(Target.position, gameObject.transform.position);
@@ -67,6 +76,9 @@ public class EnemyAI : MonoBehaviour
         navMeshAgent.isStopped = true;
     }
 
+    /// <summary>
+    /// Begin combat engagement
+    /// </summary>
     private void EngageTarget() {
         FaceTarget();
         if (distanceToTarget >= navMeshAgent.stoppingDistance) {
@@ -76,6 +88,10 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Message: on damage take, provoke this enemy
+    /// </summary>
+    /// <param name="amount"></param>
     private void OnDamageTaken(int amount) {
         isProvoked = true;
     }

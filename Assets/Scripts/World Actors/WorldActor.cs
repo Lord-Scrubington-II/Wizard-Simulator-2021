@@ -7,6 +7,7 @@ using UnityEngine;
 /// World Actors are backing containers for the statistics of all 
 /// world combatants and destructible objects, chief among them HP.
 /// </summary>
+[RequireComponent(typeof(CapsuleCollider))]
 public abstract class WorldActor : MonoBehaviour
 {
     [SerializeField] int hitPoints = 10;
@@ -34,5 +35,8 @@ public abstract class WorldActor : MonoBehaviour
         Debug.Log($"O o f, my name is {gameObject.name} and I been hit. F in the chat.");
     }
 
+    /// <summary>
+    /// Defines global and local behaviour for what happens to this World Actor upon death.
+    /// </summary>
     abstract protected void DeathProcedure();
 }
