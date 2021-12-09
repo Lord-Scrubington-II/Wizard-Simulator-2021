@@ -93,15 +93,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1530160719056825393}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83c81407209f85e4c87c0cda8b32868e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Camera: {fileID: 1530160719058464277}
   motionBob:
-    HorizontalBobRange: 0.1
-    VerticalBobRange: 0.05
+    HorizontalBobRange: 0.07
+    VerticalBobRange: 0.12
     Bobcurve:
       serializedVersion: 2
       m_Curve:
@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 1530160719061880661}
   - component: {fileID: 1530160719053287317}
   - component: {fileID: 1530160719047104977}
+  - component: {fileID: 1915212888}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -301,6 +302,20 @@ MonoBehaviour:
     slowDownRate: 20
     airControl: 0
     shellOffset: 0
+--- !u!114 &1915212888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530160719056825395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0865541ab11705242b757003056d7c45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPoints: 100
+  gameOverCanvas: {fileID: 0}
 --- !u!114 &8121092678678917165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,14 +329,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   USING_DEBUG: 0
-  FPCamera: {fileID: 0}
-  chargingParticles: {fileID: 0}
+  FPCamera: {fileID: 1530160719058464277}
+  chargingParticles: {fileID: 4010929525289214631}
   spellData:
     damage: 5
     coolDownTime: 5
     chargeTime: 2
     coolDownRemaining: 0
     chargeTimeRemaining: 2
+  projectileSpeed: 8
+  blastRadius: 5
+  payloadPrefab: {fileID: 0}
 --- !u!1 &8112959699469223164
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,6 +349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4185071753440128457}
+  - component: {fileID: 1791898562}
   m_Layer: 0
   m_Name: Spells
   m_TagString: Untagged
@@ -354,6 +373,19 @@ Transform:
   m_Father: {fileID: 1530160719056924693}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1791898562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8112959699469223164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c4350356894f604eb96cd18065d620b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSpell: 0
 --- !u!1001 &802506878867479124
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -367,7 +399,7 @@ PrefabInstance:
       objectReference: {fileID: 1530160719058464277}
     - target: {fileID: 2170500619342650762, guid: 0290290efc3d8054c8599b263686ad0b, type: 3}
       propertyPath: USING_DEBUG
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2170500619342650762, guid: 0290290efc3d8054c8599b263686ad0b, type: 3}
       propertyPath: chargingParticles
@@ -663,6 +695,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4185071753440128457}
     m_Modifications:
+    - target: {fileID: 100002, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: m_Name
+      value: Sparks
+      objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
       propertyPath: m_Name
       value: Fireball
@@ -670,6 +706,10 @@ PrefabInstance:
     - target: {fileID: 100004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+      propertyPath: m_Name
+      value: Flames
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
       propertyPath: m_LocalPosition.x
@@ -725,5 +765,10 @@ GameObject:
 --- !u!4 &4010929525269817319 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
+  m_PrefabInstance: {fileID: 4010929525269691747}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4010929525289214631 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800004, guid: 6836f5eaa96f845c4ac0909f84272556, type: 3}
   m_PrefabInstance: {fileID: 4010929525269691747}
   m_PrefabAsset: {fileID: 0}

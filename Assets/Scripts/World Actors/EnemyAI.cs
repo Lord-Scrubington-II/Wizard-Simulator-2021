@@ -37,6 +37,7 @@ public class EnemyAI : MonoBehaviour
     public Transform Target { get => target; set => target = value; }
 
     void Start() {
+        Target = FindObjectOfType<Player>().transform;
         navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
         thisEnemy = gameObject.GetComponent<Enemy>();
     }
