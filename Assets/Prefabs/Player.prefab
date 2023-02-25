@@ -229,7 +229,7 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: 3619c6acb1525a54790e435428a0d70b, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Height: 1.6
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -267,7 +267,7 @@ MonoBehaviour:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.99056625
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -297,7 +297,7 @@ MonoBehaviour:
     smoothTime: 18
     lockCursor: 1
   advancedSettings:
-    groundCheckDistance: 0.1
+    groundCheckDistance: 0.5
     stickToGroundHelperDistance: 0.6
     slowDownRate: 20
     airControl: 0
